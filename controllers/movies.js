@@ -59,13 +59,13 @@ router.get('/:movieId', async (req, res, next) => {
 router.post('', isSignedIn, async (req, res, next) => {
   try {
     // Assign the owner field on the req.body as the logged in user (req.session.user)
-    req.body.owner = req.session.user._id
+    req.body.director = req.session.user._id
 
     // Create a movie using the modified req.body
     const newmovie = await movie.create(req.body)
 
     // Add a success flash message
-    req.session.message = `Your movie at ${newmovie.streetAddress} was created successfully.`
+    req.session.message = `Your movie at ${newmovie.title} was created successfully.`
 
     // Redirect away
     return res.status(201).redirect(`/movies/${newmovie._id}`)
@@ -85,12 +85,15 @@ router.delete('/:movieId', isSignedIn, async (req, res, next) => {
     const { movieId } = req.params
     const movieToDelete = await movie.findById(movieId)
     
-  
+    // To implement authorization, we need to ensure only the owner of the movie can delete it
+    // The below if statement checks the logged in user id (req.session.user._id) against the owner field on the movie
+    // If they match, the user is authorized to delete the movie
+    // If they do not (as the condition states) we want to send an error response
     if (!movieToDelete.owner.equals(req.session.user._id)) {
-      return res.status(403).send('You are forbidden from accessing this resource')
+      return res.status(403).send('not allowed')
     }
 
-    
+    // Delete the movie from the db (works in a similar way to findByIdAndDelete)
     await movieToDelete.deleteOne()
 
     // Redirect back to the movies index
@@ -110,8 +113,8 @@ router.get('/:movieId/edit', isSignedIn, async (req, res, next) => {
     const { movieId } = req.params
     const movie = await movie.findById(movieId)
 
-    if (!movie.owner.equals(req.session.user._id)) {
-      return res.status(403).send('You are forbidden from accessing this resource')
+    if (!movie.director.equals(req.session.user._id)) {
+      return res.status(403).send('not allowed')
     }
     return res.render('movies/edit.ejs', { movie })
   } catch (error) {
@@ -130,7 +133,7 @@ router.put('/:movieId', isSignedIn, async (req, res, next) => {
     const movieToDelete = await movie.findById(movieId)
 
     if (!movieToDelete.owner.equals(req.session.user._id)) {
-      return res.status(403).send('You are forbidden from accessing this resource')
+      return res.status(403).send('not allowed')
     }
 
     await movie.findByIdAndUpdate(movieId, req.body)
