@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import session from 'express-session'
 import MongoStore from "connect-mongo"
 import passUserToView from './middleware/passUserToView.js'
+import router from './controllers/movies.js'
 
 // Routers
 import authRouter from './controllers/auth.js'

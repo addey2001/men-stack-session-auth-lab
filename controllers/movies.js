@@ -85,15 +85,12 @@ router.delete('/:movieId', isSignedIn, async (req, res, next) => {
     const { movieId } = req.params
     const movieToDelete = await movie.findById(movieId)
     
-    // To implement authorization, we need to ensure only the owner of the movie can delete it
-    // The below if statement checks the logged in user id (req.session.user._id) against the owner field on the movie
-    // If they match, the user is authorized to delete the movie
-    // If they do not (as the condition states) we want to send an error response
+  
     if (!movieToDelete.owner.equals(req.session.user._id)) {
       return res.status(403).send('You are forbidden from accessing this resource')
     }
 
-    // Delete the movie from the db (works in a similar way to findByIdAndDelete)
+    
     await movieToDelete.deleteOne()
 
     // Redirect back to the movies index
