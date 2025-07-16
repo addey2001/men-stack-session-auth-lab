@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>all movies</title>
+</head>
+<body>
+    <%- include('../partials/nav.ejs') %>
+
+    <h1>Here's all the moives</h1>
+
+    <section id="movies">
+      <% if (movies.length > 0) { %>
+        <% movies.forEach(movie => { %>
+          <div class="movie">
+            <a href="/movies/<%= movie._id %>">
+              <h3><%= movie.genre %>, <%= movie.releaseYear %></h3>
+            </a>
+          </div>
+        <% }) %>
+      <% } else { %>
+      <p>There are currently no movies</p>
+      <% } %>
+    </section>
+</body>
+</html>

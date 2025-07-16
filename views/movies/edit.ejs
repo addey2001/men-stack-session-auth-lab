@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit a movie</title>
+</head>
+<body>
+    <h1>Edit a movie</h1>
+
+  <form class="form" action="/movies/<%= movie._id %>?_method=PUT" method="POST">
+
+    <label for="title">title:</label>
+    <input type="text" name="title" id="title" required value="<%= movie.title %>" />
+
+    <label for="genre">genre:</label>
+    <input type="text" name="genre" id="genre" required value="<%= movie.city %>" />
+
+    <label for="price">Price:</label>
+    <input type="number" name="price" id="price" min="0" required value="<%= movie.price %>" />
+
+    <label for="releaseYear">release Year:</label>
+    <input type="number" name="releaseYear" id="releaseYear" min="0" required value="<%= movie.size %>" />
+
+    <% if (message) { %>
+      <p class="error-message"><%= message %></p>
+    <% } %>
+
+    <button type="submit">Confirm changes</button>
+  </form>
+    
+</body>
+</html>

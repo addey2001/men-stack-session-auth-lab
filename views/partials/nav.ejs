@@ -1,0 +1,10 @@
+<nav>
+<% if (user) { %>
+  <a href="/movies">View all movies</a>
+  <a href="/movies/new">Add a new movie</a>
+  <a href="/auth/sign-out">Sign Out</a>
+  <% } else { %>
+  <a href="/auth/sign-up">Sign Up</a>
+  <a href="/auth/sign-in">Sign In</a>
+  <% } %>
+</nav>

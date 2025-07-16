@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add a movie</title>
+</head>
+<body>
+    <%- include('../partials/nav.ejs') %>
+
+  <h1>Add a movie</h1>
+
+  <form class="form" action="/movies" method="POST">
+
+    <label for="title"> title:</label>
+    <input type="text" name="title" id="title" required />
+
+    <label for="genre">genre:</label>
+    <input type="text" name="genre" id="genre" required />
+
+    <label for="price">Price:</label>
+    <input type="number" name="price" id="price" min="0" required />
+
+    <label for="releaseYear">release Year:</label>
+    <input type="number" name="releaseYear" id="releaseYear" min="0" required />
+
+    <label for="description">description:</label>
+    <input type="number" name="description" id="description" min="0" required />
+    <% if (message) { %>
+      <p class="error-message"><%= message %></p>
+    <% } %>
+
+    <button type="submit">Add movie</button>
+  </form>
+</body>
+</html>
